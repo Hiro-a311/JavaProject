@@ -8,5 +8,12 @@
 </head>
 <body>
 	ログイン成功☆ '3'
+	
+<%
+String message = (String)request.getAttribute("message");
+if(message != null){
+	out.println(message);
+}
+%>
 </body>
 </html>

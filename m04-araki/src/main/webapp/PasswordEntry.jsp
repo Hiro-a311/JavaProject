@@ -8,12 +8,12 @@
 </head>
 <body>
 	ログイン<br>
-	<form name="login" action="./login" method="post" >
+	<form name="login" action="PasswordServlet" method="post" >
 		<div>
 			<label>
 				ログインID
 			</label>
-			<input type="text" name="loginID">
+			<input type="text" name="loginId">
 		</div>
 		<div>
 			<label>
@@ -27,8 +27,13 @@
 			</label>
 		</div>
 		
-	<!--リクエストスコープにalertがある時の処理-->
-	<>
+		<!--リクエストスコープにmessageがある時の処理-->
+		<%
+			String message = (String)request.getAttribute("message");
+				if(message != null){
+					out.println(message);
+				} 
+		%>
 	</form>
 </body>
 </html>

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class PasswordServlet
  */
+@WebServlet("/PasswordServlet")
 public class PasswordServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -37,8 +39,8 @@ public class PasswordServlet extends HttpServlet {
 				RequestDispatcher dispatcher = null;
 			
 				//パラメータ取得
-				String loginID =  request.getParameter("name");
-				String password = request.getParameter("address");
+				String loginId =  request.getParameter("loginId");
+				String password = request.getParameter("password");
 				
 				// コンソールに出力
 		        System.out.println(loginId);
@@ -46,7 +48,7 @@ public class PasswordServlet extends HttpServlet {
 		        
 		        //リクエストスコープに代入
 		        request.setAttribute("loginId", loginId);
-		        request.setAttribute("address", password);
+		        request.setAttribute("password", password);
 		        
 		        
 		        //【password分岐処理】
@@ -55,20 +57,28 @@ public class PasswordServlet extends HttpServlet {
 		        //passwordがJava1234以外ならエラーメッセージ出力
 		        
 		        //空の時の処理
-		        if (password.equals("")) {
+		        if (password != null && password.equals("")) {
+		        	
+		        	//エラーメッセージを定義
 		        	message = "パスワードか空白です。パスワードを入力してください。";
 		        	
 		        	//エラーメッセージをリクエストオブジェクトに登録
-		        	request.setAttribute("alert",message);
+		        	request.setAttribute("message",message);
 		        	
 		        	//PasswordEntry.jspに遷移先指定
-		        	request.getRequestDispatcher("./PasswordEntry.jsp");
+		        	request.getRequestDispatcher("/src/main/webapp/PasswordEntry.jsp");
 		        
 		        //Java1234の時の処理
 		        }else if(password.equals("Java1234")) {
-		       
+		        
+		        	//メッセージを定義
+		        	message = "ログインユーザー：荒木さん！おはようございます";
+		        	
+		        	//メッセージを理消すとオブジェクトに登録
+		        	request.setAttribute("message", message);
+		        	
 		        	//PasswordSuccess.jspへ遷移
-		        	dispatcher = request.getRequestDispatcher("./PasswprdSuccess.jsp");
+		        	dispatcher = request.getRequestDispatcher("/PasswordSuccess.jsp");
 		        
 		        //パスワードが違う時の処理
 		        }else {
@@ -77,10 +87,10 @@ public class PasswordServlet extends HttpServlet {
 		        	message = "パスワードが違います。正しいパスワードを入力してください。";
 		        	
 		        	//エラーメッセージをリクエストオブジェクトに登録
-		        	request.setAttribute("alert2",message);
+		        	request.setAttribute("message",message);
 		        	
 		        	//PasswordEntry.jspに遷移先指定
-		        	dispatcher = request.getRequestDispatcher("./PasswprdSuccess.jsp");
+		        	dispatcher = request.getRequestDispatcher("PasswordEntry.jsp");
 		        	
 		        }
 		        
